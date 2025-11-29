@@ -2,8 +2,8 @@ const mongoose = require('mongoose');
 //naamlou fonction besh nconnectiou bel base 
 const connectDB = async () => { 
     try {
-        await mongoose.connect(process.env.MONGO_URI, {  // houny qaadin nhawlou nconnectiou bel base 
-            useNewUrlParser: true, // hnee nesstamlou fel parser jdid mtaa mongodb
+        await mongoose.connect(process.env.MONGO_URI, {  
+            useNewUrlParser: true, 
             useUnifiedTopology: true, 
         });
         console.log("MongoDB connecté avec succès"); // ken connectina ça va l message hedha yodhher fel console
@@ -13,4 +13,4 @@ const connectDB = async () => {
     }
 };
 
-module.exports = connectDB; // hedhy tkhalina nexportiou l fonction ly sna3neha 
+module.exports = connectDB;
