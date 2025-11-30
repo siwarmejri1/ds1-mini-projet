@@ -8,10 +8,9 @@ const taskRoutes = require('./src/routes/taskRoutes');
 const app = express();
 const port = process.env.PORT || 5000;
 
-// l connexion mtaa l base de données 
+//  l connexion mtaa l base de données 
 connectDB();
-
-//middleware
+//middleware besh naamlou parse l json data eli jeya mel requests
 app.use(express.json());
 //route besh ntesstiou byh 
 app.get('/', (req, res) => {
@@ -26,10 +25,10 @@ app.get('/', (req, res) => {
     }
   });
 });
-// l route mtaa l users 
+// l route mtaa l api users 
 app.use('/api/users', userRoutes);
 
-// routes mtaa projects o tasks
+// route te3 projects w tasks
 app.use('/projects', projectRoutes);
 app.use('/tasks', taskRoutes);
 
