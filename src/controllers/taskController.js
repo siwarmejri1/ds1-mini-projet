@@ -33,9 +33,9 @@ exports.createTask = async (req, res) => {
       projetAssocie    
     });
 
-    res.status(201).json(task);
+     res.status(201).json({ message: "Tâche créée avec succès", task });
   } catch (err) {
-    res.status(500).json({ message: err.message });
+    res.status(500).json({ message: "Erreur lors de la création de la tâche : " + err.message });
   }
 };
 
@@ -51,7 +51,7 @@ exports.assignTask = async (req, res) => {
 
     // nverifiw role mte3 manager 
     if (req.user.role !== "manager") {
-      return res.status(403).json({ message: "Accès interdit (manager uniquement)" });
+      return res.status(403).json({ message: "Accès interdit !! (manager uniquement)" });
     }
 
     task.utilisateurAssigne = userId;
@@ -108,10 +108,10 @@ exports.myTasks = async (req, res) => {
     const tasks = await Task.find({ utilisateurAssigne: req.user._id })
       .populate("projetAssocie", "nom statut")
       .populate("utilisateurAssigne", "nom");
-    res.json(tasks);
 
+    res.json({ message: "Vos tâches récupérées avec succès", tasks });
   } catch (err) {
-    res.status(500).json({ message: err.message });
+    res.status(500).json({ message: "Erreur lors de la récupération de vos tâches : " + err.message });
   }
 };
 
@@ -119,15 +119,15 @@ exports.myTasks = async (req, res) => {
 exports.allTasks = async (req, res) => {
   try {
     if (req.user.role !== "manager") {
-      return res.status(403).json({ message: "Accès interdit (manager uniquement)" });
+      return res.status(403).json({ message: "Accès interdit !! (manager uniquement )" });
     }
 
     const tasks = await Task.find()
       .populate("projetAssocie", "nom statut")
       .populate("utilisateurAssigne", "nom");
-    res.json(tasks);
 
+    res.json({ message: "Toutes les tâches récupérées avec succès", tasks });
   } catch (err) {
-    res.status(500).json({ message: err.message });
+    res.status(500).json({ message: "Erreur lors de la récupération de toutes les tâches : " + err.message });
   }
 };

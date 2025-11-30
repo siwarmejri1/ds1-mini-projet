@@ -26,7 +26,6 @@ app.get('/', (req, res) => {
   });
 });
 // l route mtaa l api 
-app.use('/api/users', userRoutes);
 
 
 // route te3 projects w tasks
