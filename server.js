@@ -31,9 +31,6 @@ app.use('/api/users', userRoutes);
 app.use('/projects', projectRoutes);
 app.use('/tasks', taskRoutes);
 
-app.use('/tasks', taskRoutes);
-
-
 //besh ndemarriou l app
 app.listen(port, () => {
   console.log(` Serveur démarré sur le port ${port}`);
