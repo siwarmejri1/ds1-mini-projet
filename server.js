@@ -26,7 +26,7 @@ app.get('/', (req, res) => {
     }
   });
 });
-// l route mtaa l api 
+// l route mtaa l users 
 app.use('/api/users', userRoutes);
 
 // routes mtaa projects o tasks
