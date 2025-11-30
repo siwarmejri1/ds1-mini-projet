@@ -29,15 +29,16 @@ const userSchema = new mongoose.Schema({
 });
 
 //  qbal mansajelou l'utilisateur, besh ncryptiou l  mot de passe
-userSchema.pre('save', async function(next) {
-  if (!this.isModified('motDePasse')) return next(); 
+userSchema.pre('save', async function() {
+  if (!this.isModified('motDePasse')) return ; 
+  // lhashage mtaa l mot de passe 
   this.motDePasse = await bcrypt.hash(this.motDePasse, 12); 
-  next();
+
 });
 
 //  methode bch netaaakedou ken l mot de passe shih o ela le
-userSchema.methods.correctPassword = async function(candidatePassword, userPassword) {
-  return await bcrypt.compare(candidatePassword, userPassword); // Tcomparer ken mot de passe mte3ek s7i7 wela le
+userSchema.methods.correctPassword = async function(candidatePassword) {
+  return await bcrypt.compare(candidatePassword, this.motDePasse); // Tcomparer ken mot de passe mte3ek s7i7 wela le
 };
 
 module.exports = mongoose.model('User', userSchema); 
