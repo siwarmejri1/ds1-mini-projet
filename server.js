@@ -9,8 +9,24 @@ const app = express();
 const port = process.env.PORT || 5000;
 
 //  l connexion mtaa l base de données 
+//  l connexion mtaa l base de données 
 connectDB();
 app.use(express.json());
+//route besh ntesstiou byh 
+app.get('/', (req, res) => {
+  res.json({ 
+    message: ' API User Authentication is working!',
+    status: 'Server is running',
+    database: 'MongoDB connecting...',
+    endpoints: {
+      register: 'POST /api/users/register',
+      login: 'POST /api/users/login', 
+      profile: 'GET /api/users/profile'
+    }
+  });
+});
+// l route mtaa l api 
+app.use('/api/users', userRoutes);
 
 
 // route te3 projects w tasks
