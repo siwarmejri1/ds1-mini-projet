@@ -1,30 +1,58 @@
 // middleware/auth.js
-// Pour test temporaire sans JWT
+const jwt = require('jsonwebtoken');
+const User = require('../models/User');
 
+// middleware besh nverifiou byh token jwt mteena 
 exports.authenticate = async (req, res, next) => {
   try {
-    // ⚠️ MOCK TEMPORAIRE : utilisateur fictif
-    req.user = {
-      _id: "692b4063fccf9b4b0b1e2600", // ObjectId fictif
-      login: "fatma",
-      role: "manager" // ou "manager" si tu veux tester les routes manager
-    };
+    console.log(' Vérification du token...');
+    
+    // besh nrecuperiou token 
+    const authHeader = req.header('Authorization');
+    if (!authHeader || !authHeader.startsWith('Bearer ')) {
+      return res.status(401).json({ 
+        message: 'Accès refusé. Token manquant ou format invalide.' 
+      });
+    }
 
-    console.log('Utilisateur mocké pour test :', req.user.login);
+    const token = authHeader.replace('Bearer ', '');
+    
+    // besh nverifiou o ndecodiou token mteena 
+    const decoded = jwt.verify(token, process.env.JWT_SECRET || 'secret_fallback');
+    console.log(' Token décodé:', decoded);
+    
+    // besh nlawjou aal user fel base mteena 
+    const user = await User.findById(decoded.id).select('-motDePasse');
+    if (!user) {
+      return res.status(401).json({ 
+        message: 'Token invalide. Utilisateur non trouvé.' 
+      });
+    }
+
+    //  besh nzydou l user mteena lel objet request
+    req.user = user;
+    console.log(' Utilisateur authentifié:', user.login);
     next();
+    
   } catch (error) {
-    console.log('Erreur authentication:', error.message);
-    res.status(401).json({ message: 'Erreur authentification' });
+    console.log(' Erreur authentication:', error.message);
+    res.status(401).json({ 
+      message: 'Token invalide ou expiré.' 
+    });
   }
 };
 
-// Middleware pour vérifier si c'est manager (optionnel)
+// middleware besh nverifiou byh ely l user mteena manager 
 exports.isManager = (req, res, next) => {
+  console.log(' Vérification rôle manager...');
+  
   if (req.user && req.user.role === 'manager') {
-    console.log('Accès manager autorisé');
+    console.log(' Accès manager autorisé');
     next();
   } else {
-    console.log('Accès manager refusé');
-    res.status(403).json({ message: 'Accès refusé. Rôle manager requis.' });
+    console.log(' Accès manager refusé');
+    res.status(403).json({ 
+      message: 'Accès refusé. Rôle manager requis.' 
+    });
   }
 };
