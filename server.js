@@ -9,6 +9,7 @@ const app = express();
 const port = process.env.PORT || 5000;
 
 //  l connexion mtaa l base de données 
+//  l connexion mtaa l base de données 
 connectDB();
 //middleware besh naamlou parse l json data eli jeya mel requests
 app.use(express.json());
