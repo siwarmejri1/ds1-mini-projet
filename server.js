@@ -3,8 +3,6 @@ const express = require('express');
 const connectDB = require('./config/db');
 const projectRoutes = require('./src/routes/projectRoutes');
 const taskRoutes = require('./src/routes/taskRoutes');
-
-const taskRoutes = require('./src/routes/taskRoutes');
 const userRoutes = require('./src/routes/users');
 //hnee aamlna initialisation mtaa l app express
 const app = express();
